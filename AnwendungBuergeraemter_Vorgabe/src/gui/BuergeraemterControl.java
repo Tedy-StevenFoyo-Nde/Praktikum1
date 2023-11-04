@@ -10,40 +10,31 @@ public class BuergeraemterControl {
 
 	private BuergeraemterView bView;
 	private Buergeramt buergeramt;
-	private BuegeraemterModel bModel ;
+	private BuegeraemterModel bmodel ;
 	private BuergeraemterControl bControl;
 	
-	public BuergeraemterControl(Stage primaryStage) {
-		this.bView = new BuergeraemterView(primaryStage , this);
-		this.bModel =new BuegeraemterModel();
+	public BuergeraemterControl( BuergeraemterView bview , BuegeraemterModel bmodel) {
+		this.bView = bview;
+		this.bmodel = bmodel;
 	}
 	
-	public void nehmeBuergeramtAuf(){
-		
-    	try{
-    		this.buergeramt = this.bView.getBuergeramt();
-    		this.bView.zeigeInformationsfensterAn("Das Bürgeramt wurde aufgenommen!");
-       	}
-       	catch(Exception exc){
-       		this.bView.zeigeFehlermeldungsfensterAn(exc.getMessage());
-     	}
-    }
+	
 	
 	void schreibeBuergeraemterInDatei(String typ) {
 		try {
 			if("csv".equals(typ)) {
-				bModel.schreibeBuergeraemterInCsvDatei();
+				this.bmodel.schreibeBuergeraemterInCsvDatei();
 			}
 			else {
-				bView.zeigeFehlermeldungsfensterAn("Noch nicht implementiert");
+				this.bView.ZeigeInformationAn("die Burg. wurde aufgenommen");
 			}
 		
 		}
 		catch (IOException exc) {
-			bView.zeigeFehlermeldungsfensterAn("IOException beim Speichern");
+			this.bView.zeigeFehlermeldungsfensterAn("IOException beim Speichern");
 		}
 		catch (Exception e) {
-    bView.zeigeFehlermeldungsfensterAn("Unbekannter  Fehler beim Speichern");
+    this.bView.zeigeFehlermeldungsfensterAn("Unbekannter  Fehler beim Speichern");
 		}
 	}
 }

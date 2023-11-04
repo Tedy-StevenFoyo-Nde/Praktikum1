@@ -1,5 +1,6 @@
 package gui;
 
+import business.BuegeraemterModel;
 import business.Buergeramt;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,9 +24,9 @@ public class BuergeraemterView {
 	    private Label lblEingabe    	 		= new Label("Eingabe");
 	    private Label lblAnzeige   	 	    	= new Label("Anzeige");
 	    private Label lblName 					= new Label("Name:");
-	    private Label lblGeoeffnetVon   		= new Label("Geöffnet von:");
-	    private Label lblGeoeffnetBis  	 		= new Label("Geöffnet bis:");
-	    private Label lblStrasseHNr   			= new Label("Straße und Hausnummer:");
+	    private Label lblGeoeffnetVon   		= new Label("Geï¿½ffnet von:");
+	    private Label lblGeoeffnetBis  	 		= new Label("Geï¿½ffnet bis:");
+	    private Label lblStrasseHNr   			= new Label("Straï¿½e und Hausnummer:");
 	    private Label lblDienstleistungen  		= new Label("Dienstleistungen:");
 	    private TextField txtName 	 			= new TextField();
 	    private TextField txtGeoeffnetVon		= new TextField();
@@ -39,17 +40,20 @@ public class BuergeraemterView {
 	    private Menu mnDatei             		= new Menu("Datei");
 	    private MenuItem mnItmCsvExport 		= new MenuItem("csv-Export");
 	    private MenuItem mnItmTxtExport 		= new MenuItem("txt-Export");
+	    private BuegeraemterModel bmodel ;
+	    private BuergeraemterView bView;
 	    //-------Ende Attribute der grafischen Oberflaeche-------
 	    
 	    // speichert temporaer ein Objekt vom Typ Buergeramt
 	    private Buergeramt buergeramt;
 	    private BuergeraemterControl bControl ;
 	    
-	    public BuergeraemterView(Stage primaryStage , BuergeraemterControl bControl){
-	    	this.bControl= bControl;
+	    public BuergeraemterView(Stage primaryStage ){
+	    	this.bControl= new BuergeraemterControl(this , bmodel);
+	    	this.bmodel= new BuegeraemterModel();
 	    	Scene scene = new Scene(this.pane, 700, 340);
 	    	primaryStage.setScene(scene);
-	    	primaryStage.setTitle("Verwaltung von Bürgerämtern");
+	    	primaryStage.setTitle("Verwaltung von Bï¿½rgerï¿½mtern");
 	    	primaryStage.show();
 	    	this.initKomponenten();
 			this.initListener();
@@ -136,7 +140,7 @@ public class BuergeraemterView {
 		    btnEingabe.setOnAction(new EventHandler<ActionEvent>() {
 	            @Override
 	            public void handle(ActionEvent e) {
-	        	    bControl.nehmeBuergeramtAuf();
+	        	    nehmeBuergeramtAuf();
 	            }
 		    });
 		    btnAnzeige.setOnAction(new EventHandler<ActionEvent>() {
@@ -162,14 +166,21 @@ public class BuergeraemterView {
 	    }
 	    
 	   private void zeigeBuergeraemterAn(){
-	    	if(this.buergeramt != null){
+	    	if(this.bmodel.getBu() != null){
 	    		txtAnzeige.setText(
-	    			this.buergeramt.gibBuergeramtZurueck(' '));
+	    			this.bmodel.getBu().gibBuergeramtZurueck(' '));
 	    	}
 	    	else{
-	    		zeigeInformationsfensterAn("Bisher wurde kein Bürgeramt aufgenommen!");
+	    		zeigeInformationsfensterAn("Bisher wurde kein Bï¿½rgeramt aufgenommen!");
 	    	}
 	    }	
+	   private void zeigeFehlerMeldungAn(String message) {
+		   this.zeigeFehlermeldungsfensterAn(message);
+	   }
+	   public void ZeigeInformationAn(String message)
+	    {
+	    	this.zeigeInformationsfensterAn(message);
+	    }
 
 	    public void zeigeInformationsfensterAn(String meldung){
 	    	new MeldungsfensterAnzeiger(AlertType.INFORMATION,
@@ -181,8 +192,18 @@ public class BuergeraemterView {
 	        	"Fehler", meldung).zeigeMeldungsfensterAn();
 	    }
 	    
+	    public void nehmeBuergeramtAuf(){
+			
+	    	try{
+	    		this.bmodel.setBu(new Buergeramt(txtName.getText(), Float.parseFloat(txtGeoeffnetVon.getText()), Float.parseFloat(txtGeoeffnetBis.getText()), txtStrasseHNr.getText(), txtDienstleistungen.getText().split(";")));
+	    		this.bView.zeigeInformationsfensterAn("Das Buergeramt wurde aufgenommen!");
+	       	}
+	       	catch(Exception exc){
+	       		this.bView.zeigeFehlermeldungsfensterAn(exc.getMessage());
+	     	}
+	    }
 	    private void schreibeBuergeraemterInDatei(String typ) {
-	    	bControl.schreibeBuergeraemterInDatei(typ);
+	    	this.bControl.schreibeBuergeraemterInDatei(typ);
 	    }
 
 	    

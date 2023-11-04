@@ -17,7 +17,18 @@ public class BuegeraemterModel {
 	} */
 	public void schreibeBuergeraemterInCsvDatei() throws IOException {
 		BufferedWriter aus = new BufferedWriter(new FileWriter("Buegeraemt.csv", true));
+		aus.write(this.getBu().gibBuergeramtZurueck(';'));
+		aus.close();
 	}
+
+	public Buergeramt getBu() {
+		return bu;
+	}
+
+	public void setBu(Buergeramt bu) {
+		this.bu = bu;
+	}
+
 	
 	
 }
