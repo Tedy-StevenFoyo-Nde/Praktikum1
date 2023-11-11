@@ -17,9 +17,9 @@ public class BuergeraemterAnwendersystem {
     private Label lblEingabe    	 		= new Label("Eingabe");
     private Label lblAnzeige   	 	    	= new Label("Anzeige");
     private Label lblName 					= new Label("Name:");
-    private Label lblGeoeffnetVon   		= new Label("Geöffnet von:");
-    private Label lblGeoeffnetBis  	 		= new Label("Geöffnet bis:");
-    private Label lblStrasseHNr   			= new Label("Straße und Hausnummer:");
+    private Label lblGeoeffnetVon   		= new Label("Geoeffnet von:");
+    private Label lblGeoeffnetBis  	 		= new Label("Geoeffnet bis:");
+    private Label lblStrasseHNr   			= new Label("Strasse und Hausnummer:");
     private Label lblDienstleistungen  		= new Label("Dienstleistungen:");
     private TextField txtName 	 			= new TextField();
     private TextField txtGeoeffnetVon		= new TextField();
@@ -41,7 +41,7 @@ public class BuergeraemterAnwendersystem {
     public BuergeraemterAnwendersystem(Stage primaryStage){
     	Scene scene = new Scene(this.pane, 700, 340);
     	primaryStage.setScene(scene);
-    	primaryStage.setTitle("Verwaltung von Bürgerämtern");
+    	primaryStage.setTitle("Verwaltung von Bï¿½rgerï¿½mtern");
     	primaryStage.show();
     	this.initKomponenten();
 		this.initListener();
@@ -137,7 +137,7 @@ public class BuergeraemterAnwendersystem {
    	            Float.parseFloat(txtGeoeffnetBis.getText()),
     		    txtStrasseHNr.getText(),
     		    txtDienstleistungen.getText().split(";"));
-    		zeigeInformationsfensterAn("Das Bürgeramt wurde aufgenommen!");
+    		zeigeInformationsfensterAn("Das Bï¿½rgeramt wurde aufgenommen!");
        	}
        	catch(Exception exc){
        		zeigeFehlermeldungsfensterAn(exc.getMessage());
@@ -150,7 +150,7 @@ public class BuergeraemterAnwendersystem {
     			this.buergeramt.gibBuergeramtZurueck(' '));
     	}
     	else{
-    		zeigeInformationsfensterAn("Bisher wurde kein Bürgeramt aufgenommen!");
+    		zeigeInformationsfensterAn("Bisher wurde kein Bï¿½rgeramt aufgenommen!");
     	}
     }	
 
